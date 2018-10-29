@@ -1,0 +1,52 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+
+    <TableRow android:layout_marginTop="150dip" android:gravity="center">
+
+        <Button
+            android:id="@+id/mergeMainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Merge Text"
+            android:visibility="visible"></Button>
+    </TableRow>
+
+
+    <TableRow android:layout_marginTop="20dip" android:gravity="center">
+
+        <Button
+            android:id="@+id/accMainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Demo Accelerometer"
+            android:visibility="visible"></Button>
+    </TableRow>
+
+    <TableRow android:layout_marginTop="20dip" android:gravity="center">
+
+        <Button
+            android:id="@+id/gpsMainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Demo GPS"
+            android:visibility="visible"></Button>
+    </TableRow>
+
+    <TableRow android:layout_marginTop="20dip" android:gravity="center">
+
+        <Button
+            android:id="@+id/mapMainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Demo Map"
+            android:visibility="visible"></Button>
+    </TableRow>
+
+</TableLayout>
