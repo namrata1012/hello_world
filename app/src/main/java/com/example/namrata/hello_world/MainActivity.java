@@ -11,31 +11,32 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mergeBtn, accBtn, gpsBtn, mapBtn;
+    private Button mergeBtn, accBtn, gpsBtn, mapBtn, outBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mergeBtn = findViewById(R.id.mergeMainBtn);
+        //mergeBtn = findViewById(R.id.mergeMainBtn);
         //loginBtn = findViewById(R.id.loginMainBtn);
         accBtn = findViewById(R.id.accMainBtn);
         gpsBtn = findViewById(R.id.gpsMainBtn);
         mapBtn = findViewById(R.id.mapMainBtn);
+        //outBtn = findViewById(R.id.logoutBtn);
 
         Bundle bundle = getIntent().getExtras();
-        String isLogin="";
+        String isLogin="false";
 //Extract the data…
         if(bundle != null) {
             isLogin = bundle.getString("login");
         }
-        if(!isLogin.equals("true")) {
+        if(isLogin==null || !isLogin.equals("true")) {
             Intent mp = new Intent(MainActivity.this, Login2Activity.class);
             startActivity(mp);
             finish();
         }
-        mergeBtn.setOnClickListener(new View.OnClickListener() {
+        /*mergeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent mp = new Intent(MainActivity.this, JoinTextActivity.class);
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        /*loginBtn.setOnClickListener(new View.OnClickListener() {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent mp = new Intent(MainActivity.this, Login2Activity.class);
@@ -75,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        /*outBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mp = new Intent(MainActivity.this, Login2Activity.class);
+                startActivity(mp);
+                finish();
+            }
+        });*/
+    }
+    @Override
+    public void onBackPressed() {
+        /*Intent i = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();*/
     }
 /*
     public void displayToast(View view) {

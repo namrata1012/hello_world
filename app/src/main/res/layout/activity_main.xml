@@ -3,8 +3,8 @@
     android:layout_height="fill_parent"
     >
 
-
-    <TableRow android:layout_marginTop="150dip" android:gravity="center">
+<!--
+    <TableRow android:layout_marginTop="130dip" android:gravity="center">
 
         <Button
             android:id="@+id/mergeMainBtn"
@@ -14,16 +14,16 @@
             android:text="Merge Text"
             android:visibility="visible"></Button>
     </TableRow>
+-->
 
-
-    <TableRow android:layout_marginTop="20dip" android:gravity="center">
+    <TableRow android:layout_marginTop="170dip" android:gravity="center">
 
         <Button
             android:id="@+id/accMainBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Demo Accelerometer"
+            android:text="Accelerometer"
             android:visibility="visible"></Button>
     </TableRow>
 
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Demo GPS"
+            android:text="GPS"
             android:visibility="visible"></Button>
     </TableRow>
 
@@ -45,8 +45,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Demo Map"
+            android:text="Map"
             android:visibility="visible"></Button>
     </TableRow>
+<!--
+    <TableRow android:layout_marginTop="20dip" android:gravity="center">
 
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Logout"
+            android:visibility="visible"></Button>
+    </TableRow>
+-->
 </TableLayout>

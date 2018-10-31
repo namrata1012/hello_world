@@ -31,46 +31,42 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
     LocationManager locationManager;
     String provider;
     GoogleApiClient googleApiClient;
+    private double latitude, longitude;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gpslocation);
-        latituteField = (TextView) findViewById(R.id.latitude_value);
-        longitudeField = (TextView) findViewById(R.id.longitude_value);
-        speedField = (TextView) findViewById(R.id.speed_value);
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        initViews();
+        initListeners();
+        initObjects();
+        findLocation();
+    }
 
-        // Get the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        // Define the criteria how to select the locatioin provider -> use
-        // default
-        Criteria criteria = new Criteria();
-
-        provider = locationManager.getBestProvider(criteria, false);
-        Toast.makeText(getBaseContext(), provider, Toast.LENGTH_SHORT).show();
-
+    private void findLocation() {
         if (provider != null && !provider.equals("")) {
-            /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }*/
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 //Requesting the Location permission
-                ActivityCompat.requestPermissions(this, new String[] {
+                ActivityCompat.requestPermissions(this, new String[]{
                         android.Manifest.permission.ACCESS_FINE_LOCATION
                 }, 101);
                 return;
             }
+
             locationManager.requestLocationUpdates(provider, 400, 1, this);
+
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     // Do something after 5s = 5000ms
+                    if (ActivityCompat.checkSelfPermission(GPSlocation.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission(GPSlocation.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(GPSlocation.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                        return;
+                    }
+
                     Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
                     //Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 400, 1, this);
@@ -78,11 +74,11 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
                         if (location != null) {
                             onLocationChanged(location);
                         } else {
-                            Toast.makeText(getBaseContext(), "No Location Provider Found Check Your Code", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getBaseContext(), "No Location Provider Found Check Your Code", Toast.LENGTH_SHORT).show();
                             toMain();
                         }
                     } else {
-                        Toast.makeText(getBaseContext(), "No Location Manager Found Check Your Code", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getBaseContext(), "No Location Manager Found Check Your Code", Toast.LENGTH_SHORT).show();
                         toMain();
                     }
                 }
@@ -91,10 +87,38 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
         }
     }
 
+    private void initObjects() {
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        // Get the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use default
+        Criteria criteria = new Criteria();
+
+        provider = locationManager.getBestProvider(criteria, false);
+        Toast.makeText(getBaseContext(), provider, Toast.LENGTH_SHORT).show();
+    }
+
+    private void initListeners() {
+        //showMap.setOnClickListener(this);
+    }
+
+    private void initViews() {
+        latituteField = (TextView) findViewById(R.id.latitude_value);
+        longitudeField = (TextView) findViewById(R.id.longitude_value);
+        speedField = (TextView) findViewById(R.id.speed_value);
+        //showMap = (Button)findViewById(R.id.button_showMap);
+    }
+
     public void onStart() {
         super.onStart();
         googleApiClient.connect();
     }
+
     public void onStop() {
         super.onStop();
         googleApiClient.disconnect();
@@ -102,13 +126,15 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
 
     @Override
     public void onConnected(Bundle bundle) {
-        SupportMapFragment mapFragment = (SupportMapFragment)
-                getSupportFragmentManager().findFragmentById(R.id.map);
+//        SupportMapFragment mapFragment = (SupportMapFragment)
+//                getSupportFragmentManager().findFragmentById(R.id.map);
         //mapFragment.getMapAsync(this);
     }
+
     @Override
     public void onConnectionSuspended(int i) {
     }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
     }
@@ -117,14 +143,24 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
     @Override
     protected void onResume() {
         super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Requesting the Location permission
+            ActivityCompat.requestPermissions(this, new String[]{
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+            }, 101);
+            return;
+        }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 400, 1, this);
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location2) {
+        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         longitudeField.setText(String.valueOf(location.getLongitude()));
+        longitude = location.getLongitude();
         latituteField.setText(String.valueOf(location.getLatitude()));
-        speedField.setText(String.valueOf(location.getSpeed()));
+        latitude = location.getLatitude();
+        //speedField.setText(String.valueOf(location.getSpeed()));
     }
 
     @Override
@@ -152,6 +188,7 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
         toMain();
     }
 
+
     public void toMain() {
         Intent i = new Intent(GPSlocation.this, MainActivity.class);
         Bundle bundle = new Bundle();
@@ -164,9 +201,9 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
         startActivity(i);
         finish();
     }
+}
 
    /* Location myLocation = getLastKnownLocation();
-
     private Location getLastKnownLocation() {
         //locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
@@ -183,4 +220,3 @@ public class GPSlocation extends AppCompatActivity implements LocationListener, 
         }
         return bestLocation;
     }*/
-}

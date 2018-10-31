@@ -147,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         } else {
             // Snack Bar to show error message that record already exists
-            Snackbar.make(nestedScrollView, "Some error occurred", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(nestedScrollView, "User already exists", Snackbar.LENGTH_LONG).show();
         }
 
 
